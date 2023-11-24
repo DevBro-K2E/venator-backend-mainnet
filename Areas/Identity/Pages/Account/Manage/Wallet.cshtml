@@ -1,0 +1,74 @@
+﻿@page
+@model IsometricShooterWebApp.Areas.Identity.Pages.Account.Manage.WalletModel
+
+@{
+    ViewData["Title"] = "Wallet";
+    ViewData["ActivePage"] = IsometricShooterWebApp.Areas.Identity.Pages.Account.Manage.ManageNavPages.Wallet;
+}
+
+<h3>@ViewData["Title"]</h3>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Information</h4>
+        <div class="form-floating">
+            <input value="@Model.CurrentBalance.ToString("F4")" class="form-control" disabled />
+            <label asp-for="CurrentBalance" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input value="@((int)Model.CurrentMoney)" class="form-control" disabled />
+            <label asp-for="CurrentMoney" class="form-label"></label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Pay</h4>
+        <div class="form-floating">
+            <select  id="pay_account_select" class="form-control"></select>
+            <label class="form-label">Wallet</label>
+        </div>
+        <div class="form-floating">
+            <input id="pay_count" class="form-control" type="number" step="0.1" />
+            <label class="form-label">Count</label>
+        </div>
+        <button id="pay_send_btn" class="w-100 btn btn-lg btn-primary" disabled>Pay</button>
+
+        <p id="pay_log"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Withdrawal</h4>
+        <form id="profile-form" method="post" asp-page-handler="Withdrawal">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="WithdrawalInput.Address" class="form-control" />
+                <label asp-for="WithdrawalInput.Address" class="form-label"></label>
+                <span asp-validation-for="WithdrawalInput.Address" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="WithdrawalInput.Count" class="form-control" />
+                <label asp-for="WithdrawalInput.Count" class="form-label"></label>
+                <span asp-validation-for="WithdrawalInput.Count" class="text-danger"></span>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Send</button>
+
+            @if (Model.SuccessWithdrawal)
+            {
+                <p>Success sended. Transaction @Model.WithdrawalTransactionId</p>
+            }
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        var walletAddress = '@Model.Address';
+        var walletIdentity = '@Model.UserIdentity';
+    </script>
+
+    <script src="~/js/web3.min.js" asp-append-version="true"></script>
+    <script src="~/js/wallet.js" asp-append-version="true"></script>
+}

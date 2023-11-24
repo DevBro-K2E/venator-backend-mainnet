@@ -1,0 +1,126 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        @*<form id="profile-form" method="post">*@
+        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+        <div class="form-floating">
+            <input asp-for="InvitationUrl" 
+                    class="form-control" 
+                    readonly
+                    id="invUrl" 
+                    onclick="copyToClipboard('invUrl')"
+                   style="cursor:pointer;" 
+                   data-bs-toggle="tooltip" 
+                   data-bs-trigger="click"
+                   data-bs-placement="top" 
+                   title="Copied"/>
+            <label asp-for="InvitationUrl" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="InvitationRedirectCount" class="form-control" disabled />
+            <label asp-for="InvitationRedirectCount" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="InvitationRegistrationCount" class="form-control" disabled />
+            <label asp-for="InvitationRegistrationCount" class="form-label"></label>
+        </div>
+
+        <div class="form-floating">
+            <input asp-for="Username" class="form-control" disabled />
+            <label asp-for="Username" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="GameCount" class="form-control" disabled />
+            <label asp-for="GameCount" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="WinCount" class="form-control" disabled />
+            <label asp-for="WinCount" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="DefeatCount" class="form-control" disabled />
+            <label asp-for="DefeatCount" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="KillCount" class="form-control" disabled />
+            <label asp-for="KillCount" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="DeathCount" class="form-control" disabled />
+            <label asp-for="DeathCount" class="form-label"></label>
+        </div>
+        <div class="form-floating">
+            <input asp-for="LatestLogin" class="form-control" disabled />
+            <label asp-for="LatestLogin" class="form-label"></label>
+        </div>
+        @*            <div class="form-floating">
+        <input asp-for="Input.PhoneNumber" class="form-control" />
+        <label asp-for="Input.PhoneNumber" class="form-label"></label>
+        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>*@
+        @*<button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>*@
+        @*</form>*@
+    </div>
+</div>
+<div class="row">
+
+    <h5>Sessions</h5>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>IpAddress</th>
+        </tr>
+        @foreach (var session in Model.UserSessions)
+        {
+            <tr>
+                <td>@session.Date</td>
+                <td>@session.IpAddress</td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function() {
+
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                var tt = new bootstrap.Tooltip(tooltipTriggerEl, {
+                    delay: { "show": 10, "hide": 2000 },
+                    container: 'body'
+                })
+                $(tooltipTriggerEl).on("click", function()
+                {
+                  setTimeout(()=>{ tt.hide();}, 2000);
+                });
+
+                return tt;
+            })
+
+        });
+
+        function copyToClipboard(inputId) {
+            // Get the text field
+            var copyText = document.getElementById(inputId);
+
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+        }
+    </script>
+}
