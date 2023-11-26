@@ -1,6 +1,6 @@
 $tag = 'is-server'
-$repoRegName = 'server'
-$registry = 'isometricshooter.azurecr.io'
+$repoRegName = 'refereecontainer'
+$registry = 'refereecontainer.azurecr.io'
 
 
 Set-Location 'Build'
