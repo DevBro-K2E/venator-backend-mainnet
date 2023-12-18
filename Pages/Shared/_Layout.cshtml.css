@@ -8,12 +8,12 @@ a.navbar-brand {
 }
 
 a {
-  color: #0077cc;
+  color: #5f6164;
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
+  background-color: #5f6164;
   border-color: #1861ac;
 }
 
@@ -24,7 +24,7 @@ a {
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #763b97;
 }
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;

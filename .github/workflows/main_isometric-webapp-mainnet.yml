@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - isometric-webapp-custom
+name: Build and deploy ASP.Net Core app to Azure Web App - isometric-webapp-mainnet
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'isometric-webapp-custom'
+          app-name: 'isometric-webapp-mainnet'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_68A4513BBD704CE3A263DE5FDC095FB8 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_808BCA7695834EA2A16E1D842D2F7AF2 }}
           package: .
