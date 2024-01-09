@@ -155,18 +155,32 @@ namespace IsometricShooterWebApp.Managers
 
         public async Task<string?> SendTransactionAsync(string address, decimal count)
         {
-            //https://github.com/Nethereum/Nethereum/issues/703 this help
-            var web3 = GetWeb3();
+            Web3? web3 = null;
 
-            web3.TransactionManager.UseLegacyAsDefault = true;
-            var txnInput = EtherTransferTransactionInputBuilder.CreateTransactionInput(web3.TransactionManager?.Account?.Address, address, count);
-            txnInput.ChainId = await web3.Eth.ChainId.SendRequestAsync();
+            try
+            {
+                //https://github.com/Nethereum/Nethereum/issues/703 this help
+                web3 = GetWeb3();
 
-            var signedTx = await web3.TransactionManager.SignTransactionAsync(txnInput); 
+                logger.LogInformation($"{nameof(SendTransactionAsync)} Try transaction from {web3?.TransactionManager?.Account?.Address} to {address}, count {count}");
 
-            var result = await web3.Eth.Transactions.SendRawTransaction.SendRequestAsync(signedTx);
+                web3.TransactionManager.UseLegacyAsDefault = true;
+                var txnInput = EtherTransferTransactionInputBuilder.CreateTransactionInput(web3.TransactionManager?.Account?.Address, address, count);
+                txnInput.ChainId = await web3.Eth.ChainId.SendRequestAsync();
 
-            return result;
+                var signedTx = await web3.TransactionManager.SignTransactionAsync(txnInput);
+
+                var result = await web3.Eth.Transactions.SendRawTransaction.SendRequestAsync(signedTx);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                logger.LogError($"{nameof(SendTransactionAsync)} Error on try transaction from {web3?.TransactionManager?.Account?.Address} to {address}, count {count} - {ex}");
+            }
+
+            return null;
         }
 
         private Web3 GetWeb3()
